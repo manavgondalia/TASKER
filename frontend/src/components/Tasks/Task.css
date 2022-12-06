@@ -1,0 +1,21 @@
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.container {
+    justify-content: center;
+    min-width: fit-content;
+    background-color: #F08A5D;
+    color: #252A34;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.cbox {
+    opacity: 0.8;
+    text-decoration: line-through;
+    color: #6A2C70;
+}
