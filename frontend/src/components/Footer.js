@@ -1,13 +1,12 @@
 import React from 'react'
 import './Footer.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const Footer = () => {
   return (
-    <div className='footer' >
-      <p style={{ display: "inline" }}>Copyright © 2022  </p>
-      <p style={{ display: "inline", fontSize: "3vh" }}> | </p>
-      <a href='https://github.com/manavgondalia' style={{ color: "inherit", textDecoration: "none" }}><p className='animate-text' style={{ fontSize: "3vh" }}>Manav P Gondalia</p></a>
+    <div className='footer ' >
+      <p className='mb-0'>&copy;  {new Date().getFullYear()} <a href='https://github.com/manavgondalia/' className='animate-text' style={{ color: "inherit", textDecoration: "none" }}> Manav P Gondalia </a></p>
     </div >
   )
 }
