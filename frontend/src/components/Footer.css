@@ -6,10 +6,11 @@
     text-align: center;
     color: #EEEEEE;
     width: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Rubik', serif;
 }
 
 .animate-text {
+
     display: inline-block;
     position: relative;
 }
@@ -19,8 +20,8 @@
     position: absolute;
     width: 100%;
     transform: scaleX(0);
-    height: 0.5vh;
-    top: 3.75vh;
+    height: 0.3vh;
+    top: 3vh;
     bottom: 0;
     left: 0;
     background-color: #F8F988;
