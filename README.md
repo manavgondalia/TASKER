@@ -1,5 +1,6 @@
-![tasker](https://user-images.githubusercontent.com/72291135/208051731-e1ef82d9-cb4e-4eae-a944-1dd866f290fb.png)
+[![tasker](https://user-images.githubusercontent.com/72291135/208051731-e1ef82d9-cb4e-4eae-a944-1dd866f290fb.png)](https://taskerweb.netlify.app/)
 
+The website is **live** [here](https://taskerweb.netlify.app/).
 
 A simple and responsive web-app to track your daily tasks with the functionality to:
 - Add new tasks
@@ -21,6 +22,15 @@ A simple and responsive web-app to track your daily tasks with the functionality
 **Database:** 
 
 ![mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+## Examples 
+
+Home page:
+![image](https://user-images.githubusercontent.com/72291135/208054021-768a7b9b-10f7-4df4-83b5-04e9105866cb.png)
+
+Task-list page: (You might have to wait for some time :'( for the backend server to respond.)
+![image](https://user-images.githubusercontent.com/72291135/208053888-2abe1840-b6e9-4bf3-80c0-4f7a1609e644.png)
+
 
 ## Feedback
 
