@@ -28,7 +28,7 @@ A simple and responsive web-app to track your daily tasks with the functionality
 Home page:
 ![image](https://user-images.githubusercontent.com/72291135/222914158-8841feb1-ab6d-43fa-bb1a-c5d452cc03c7.png)
 
-Task-list page: (You might have to wait for some time :'( for the backend server to respond.)
+Task-list page: (You might have to wait for some time for the backend server to respond. :'( )
 ![image](https://user-images.githubusercontent.com/72291135/222914203-7fb7d541-b762-4b04-b81c-9c76cbc15afc.png)
 
 
