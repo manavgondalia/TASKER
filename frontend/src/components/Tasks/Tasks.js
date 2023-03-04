@@ -58,7 +58,7 @@ const Tasks = () => {
                 {
                     tasks && tasks.map((task) => (
                         <div className={'container mb-2 task-item' + (task.completed ? " completed-task" : "")} key={task._id}  >
-                            <FormControlLabel onClick={() => completeTask(task._id)} style={{ maxWidth: 225 }} control={<Checkbox checked={task.completed} />} label={task.taskdetail} />
+                            <FormControlLabel style={{ maxWidth: 225 }} control={<Checkbox checked={task.completed} onClick={() => completeTask(task._id)} />} label={task.taskdetail} />
                             <IconButton className='delete-icon' variant='outlined' onClick={() => deleteTask(task)}>
                                 <RemoveCircleOutlineIcon fontSize='inherit' style={{ color: "red" }} />
                             </IconButton>
