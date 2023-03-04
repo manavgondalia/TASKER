@@ -52,12 +52,9 @@ const updatetaskbyid = async (req, res) => {
     const id = req.params.id;
     var task;
     try {
-        task = await TaskItem.findByIdAndUpdate(id, {
-            taskdetail: req.body.taskdetail,
-            dateofcreation: req.body.dateofcreation,
-            completed: req.body.completed
-        });
-        await task.save();
+        task = await TaskItem.findById(id);
+        task.completed = !task.completed;
+        task.save();
     } catch (err) {
         console.log(err);
     }
@@ -72,8 +69,6 @@ const deletetask = async (req, res) => {
     var task;
     try {
         task = await TaskItem.findByIdAndDelete(id);
-
-
     } catch (err) {
         console.log(err);
     }
