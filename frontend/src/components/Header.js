@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { AppBar, Tab, Tabs, Toolbar, Typography } from "@mui/material";
-import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import { NavLink } from "react-router-dom"
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { NavLink } from "react-router-dom";
+import './Home.css';
 
 const Header = () => {
     const [value, setValue] = useState();
@@ -9,9 +10,10 @@ const Header = () => {
         <div>
             <AppBar sx={{ backgroundColor: "#222831" }} position='sticky' >
                 <Toolbar>
-                    <NavLink to="/" style={{ color: "white" }}>
+                    <NavLink to="/" style={{ color: "white", textDecoration: "none" }}>
                         <Typography>
                             <TaskAltIcon />
+                            <span className='logo-text' style={{ fontSize: 19 }}>  TASKER</span>
                         </Typography>
                     </NavLink>
                     <Tabs sx={{ ml: "auto" }} textColor="inherit" indicatorColor='primary' value={value} onChange={(e, val) => setValue(val)}>
