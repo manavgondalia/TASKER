@@ -1,0 +1,34 @@
+.footer {
+    background-color: #222831;
+    position: fixed;
+    bottom: 0;
+    padding: 0.5rem;
+    text-align: center;
+    color: #EEEEEE;
+    width: 100%;
+    font-family: 'Rubik', serif;
+}
+
+.animate-text {
+    display: inline-block;
+    position: relative;
+}
+
+.animate-text::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 0.3vh;
+    top: 3vh;
+    bottom: 0;
+    left: 0;
+    background-color: #F8F988;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.animate-text:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
