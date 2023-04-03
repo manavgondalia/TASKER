@@ -34,7 +34,7 @@ Authentication page (easily switch between login and signup cards):
 
 
 Task-list page:
-![image](https://user-images.githubusercontent.com/72291135/229592338-d16a92b6-4a9a-4efc-bec5-b7050161b004.png)
+![image](https://user-images.githubusercontent.com/72291135/229592701-935a6563-7ad9-4331-91b0-7dd03de2bbf3.png)
 
 
 ## Feedback
