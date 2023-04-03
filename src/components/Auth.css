@@ -21,7 +21,6 @@ ul {
     background-color: #EEEEEE;
 }
 
-
 .heading-text {
     font-family: 'Playfair Display', serif;
 }
@@ -31,13 +30,13 @@ ul {
     font-size: x-large;
 }
 
-
 .auth-container {
     justify-content: center;
     max-width: 45em;
 }
 
 .auth-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     max-height: 30em;
     max-width: fit-content;
     background-color: #F9ED69;
