@@ -2,12 +2,9 @@ import { Button, TextField, } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
 import { db } from '../../firebase';
-import { collection, doc, addDoc } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore'
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import './Task.css';
-
-// const URL = "http://localhost:5000/tasks/"
-const URL = process.env.REACT_APP_SERVER_URL;
 
 const AddTask = (props) => {
 

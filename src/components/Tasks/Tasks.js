@@ -17,8 +17,11 @@ const Tasks = () => {
 
     const [user, setUser] = useState({});
 
+
     useEffect(() => {
+        // eslint-disable-next-line
         getItems();
+        // eslint-disable-next-line
     }, [tasks, user]);
 
     useEffect(() => {

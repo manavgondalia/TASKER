@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AppBar, Tab, Tabs, Toolbar, Typography } from "@mui/material";
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { NavLink } from "react-router-dom";
 import './Home.css';
 

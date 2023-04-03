@@ -13,7 +13,8 @@ const Auth = () => {
     const [loginPassword, setLoginPassword] = useState("");
     const [error, setError] = useState(null);
     const [isSignUp, setIsSignUp] = useState(true);
-
+    
+    // eslint-disable-next-line
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -65,6 +66,7 @@ const Auth = () => {
         }
     }
 
+    // eslint-disable-next-line
     const logout = async () => {
         await signOut(auth);
     }
