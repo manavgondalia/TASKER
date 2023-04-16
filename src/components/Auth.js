@@ -13,7 +13,7 @@ const Auth = () => {
     const [loginPassword, setLoginPassword] = useState("");
     const [error, setError] = useState(null);
     const [isSignUp, setIsSignUp] = useState(true);
-    
+
     // eslint-disable-next-line
     const [user, setUser] = useState({});
 
@@ -112,7 +112,7 @@ const Auth = () => {
                     <form >
                         <Box className="details-box">
                             <TextField type={"email"} className="mt-4 details-field" onChange={isSignUp ? handleChangeRegisterEmail : handleChangeLoginEmail} margin='normal' label="Enter email address" variant="outlined" name='email' />
-                            <TextField type="password" className="details-field" onChange={isSignUp ? handleChangeRegisterPassword : handleChangeLoginPassword} margin='normal' label="Set password (minimum 6 characters)" variant="outlined" name='password' />
+                            <TextField type="password" className="details-field" onChange={isSignUp ? handleChangeRegisterPassword : handleChangeLoginPassword} margin='normal' label={isSignUp ? "Set password (minimum 6 characters)" : "Enter password"} variant="outlined" name='password' />
                             <Tooltip title={error == null ? "" : error}>
                                 <Button
                                     sx={{ backgroundColor: "#FC2947", color: "white", "&:hover": { color: "white", backgroundColor: "#7149C6" } }}
