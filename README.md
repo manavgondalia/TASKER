@@ -41,7 +41,7 @@ Task-list page:
 
 ### Installing the necessary dependencies
 
-One can install the necessary dependencies using the `npm install` command in the project directory
+One can install the necessary dependencies using the `npm install` command in the project directory.
 
 ### Available Scripts
 
