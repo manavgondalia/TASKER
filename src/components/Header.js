@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
-import { AppBar, Tab, Tabs, Toolbar, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import './Home.css';
+import React from "react";
+// import { NavLink } from "react-router-dom";
 
 const Header = () => {
-    const [value, setValue] = useState();
-    return (
-        <div>
-            <AppBar sx={{ backgroundColor: "#222831" }} position='sticky' >
-                <Toolbar>
-                    <NavLink to="/" style={{ color: "white", textDecoration: "none" }}>
-                        <Typography>
-                            <span className='logo-text' style={{ fontSize: 35 }}>  TASKER</span>
-                        </Typography>
-                    </NavLink>
-                    <Tabs sx={{ ml: "auto" }} textColor="inherit" indicatorColor='primary' value={value} onChange={(e, val) => setValue(val)}>
-                        <Tab LinkComponent={NavLink} to="/tasks" label="Tasks" />
-                        <Tab LinkComponent={NavLink} to="/about" label="About" />
-                    </Tabs>
-                </Toolbar>
-            </AppBar>
-        </div >
-    )
-}
+	return (
+		<div>
+			<header className="w-full flex px-3 py-2 bg-[#222831] items-center justify-between shadow-lg shadow-primary-dark/30 top-0">
+				<div className="items-center">
+					<h3 className="text-white font-alice mb-0">TASKER</h3>
+				</div>
+				<div className="flex text-white">
+					<p className="px-2 font-chivo mb-0">Tasks</p>
+					<p className="px-2 font-chivo mb-0">User Name</p>
+				</div>
+			</header>
+		</div>
+	);
+};
 
-export default Header
+export default Header;
