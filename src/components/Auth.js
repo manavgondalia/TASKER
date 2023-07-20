@@ -14,6 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+	// const [registerName, setRegisterName] = useState("");
 	const [registerEmail, setRegisterEmail] = useState("");
 	const [registerPassword, setRegisterPassword] = useState("");
 	const [loginEmail, setLoginEmail] = useState("");
@@ -53,6 +54,10 @@ const Auth = () => {
 			loginPassword
 		);
 	};
+
+	// const handleChangeRegisterName = (e) => {
+	// 	setRegisterName(e.target.value);
+	// };
 
 	const handleChangeRegisterEmail = (e) => {
 		const emailInput = e.target.value;
@@ -149,7 +154,7 @@ const Auth = () => {
 	};
 
 	return (
-		<div className="container auth-container">
+		<div className="container">
 			<Toaster />
 			<h2 className="font-chivo font-semibold text-center mt-5">
 				You must be logged in to use the app.
@@ -160,9 +165,19 @@ const Auth = () => {
 						{isSignUp ? "Sign Up" : "Login"}
 					</h5>
 					<form>
-						<div className="details-box">
+						<div className="flex flex-col justify-center content-center">
+							{/* {isSignUp && (
+								<TextInput
+									type="text"
+									onChange={handleChangeRegisterName}
+									label="Enter username"
+									variant="outlined"
+									name="name"
+									value={registerName}
+								/>
+							)} */}
 							<TextInput
-								type={"email"}
+								type="email"
 								onChange={
 									isSignUp ? handleChangeRegisterEmail : handleChangeLoginEmail
 								}
