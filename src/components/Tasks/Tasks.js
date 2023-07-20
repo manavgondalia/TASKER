@@ -1,6 +1,7 @@
-import { Checkbox, IconButton, FormControlLabel, Button } from "@mui/material";
 import { db, auth } from "../../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
+import { IoRemoveCircleOutline } from "react-icons/io5";
 import {
 	collection,
 	deleteDoc,
@@ -13,10 +14,8 @@ import {
 import React, { useEffect, useState } from "react";
 import AddTask from "./AddTask";
 import "./Task.css";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Completed from "./Completed";
-import Auth from "../Auth";
 
 const Tasks = () => {
 	const [tasks, setTasks] = useState();
@@ -25,7 +24,6 @@ const Tasks = () => {
 	const [user, setUser] = useState({});
 
 	useEffect(() => {
-		// eslint-disable-next-line
 		getItems();
 		// eslint-disable-next-line
 	}, [tasks, user]);
@@ -33,6 +31,7 @@ const Tasks = () => {
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser);
+			console.log(auth.currentUser);
 		});
 	}, []);
 
@@ -58,71 +57,50 @@ const Tasks = () => {
 		await deleteDoc(taskToDelete);
 	};
 
-	const logout = async () => {
-		await signOut(auth);
-	};
-
 	return (
 		<div>
-			{user ? (
-				<div className="task-wrapper">
-					<div className="task-card text-align-center mx-auto mt-5 px-4 pb-1 ">
-						<div>
-							<AddTask user={user} parentCall={addTask} />
-						</div>
-						<ul className="ps-0">
+			{/* <Toaster /> */}
+
+			<div className="flex flex-col justify-center">
+				<div className="task-card text-align-center mx-auto mt-5 px-4 pb-1 h-[27rem]">
+					<div>
+						<AddTask user={user} parentCall={addTask} />
+					</div>
+					<div className="flex flex-col justify-between h-[20rem]">
+						<ul className="ps-0 ">
 							{tasks &&
 								tasks.map((task) => (
 									<div
 										className={
-											"container task-container mb-2 task-item" +
+											"flex justify-between align-items-center w-full py-1 px-2 mb-2 bg-[#F08A5D] rounded-xl font-chivo" +
 											(task.completed ? " completed-task" : "")
 										}
 										key={task.id}
 									>
-										<FormControlLabel
-											style={{ maxWidth: 225 }}
-											control={
-												<Checkbox
-													checked={task.completed}
-													onChange={() => completeTask(task.id, task.completed)}
-												/>
-											}
-											label={task.description}
-										/>
-										<IconButton
-											className="delete-icon"
-											variant="outlined"
-											onClick={() => deleteTask(task.id)}
+										<div
+											className="flex align-items-center justify-end"
+											onClick={() => completeTask(task.id, task.completed)}
 										>
-											<RemoveCircleOutlineIcon
-												fontSize="inherit"
-												style={{ color: "red" }}
-											/>
-										</IconButton>
+											{task.completed ? (
+												<ImCheckboxChecked className="text-md" />
+											) : (
+												<ImCheckboxUnchecked className="text-md" />
+											)}
+											<span className="ml-2">{task.description}</span>
+										</div>
+										<IoRemoveCircleOutline
+											className="text-2xl my-1 cursor-pointer text-[#ff0000]"
+											onClick={() => deleteTask(task.id)}
+										/>
 									</div>
 								))}
-							<div>
-								<Completed tasklist={tasks} />
-							</div>
 						</ul>
+						<div>
+							<Completed tasklist={tasks} />
+						</div>
 					</div>
-					<Button
-						sx={{
-							color: "black",
-							"&:hover": { color: "white", backgroundColor: "#1C3879" },
-						}}
-						variant="text"
-						className="mt-1 mb-2 mx-auto"
-						type="submit"
-						onClick={logout}
-					>
-						SIGN OUT
-					</Button>
 				</div>
-			) : (
-				<Auth />
-			)}
+			</div>
 		</div>
 	);
 };

@@ -1,142 +1,214 @@
-import { Button, Box, TextField, Tooltip } from '@mui/material';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import React, { useEffect, useState } from 'react';
-import './Auth.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { auth } from "../firebase";
+import {
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import "./Auth.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import TextInput from "../elements/TextInput";
+import Button from "../elements/Button";
+import * as EmailValidator from "email-validator";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+	const [registerEmail, setRegisterEmail] = useState("");
+	const [registerPassword, setRegisterPassword] = useState("");
+	const [loginEmail, setLoginEmail] = useState("");
+	const [loginPassword, setLoginPassword] = useState("");
+	const [isValidEmail, setIsValidEmail] = useState(true);
+	const [isSignUp, setIsSignUp] = useState(true);
 
-    const [registerEmail, setRegisterEmail] = useState("");
-    const [registerPassword, setRegisterPassword] = useState("");
-    const [loginEmail, setLoginEmail] = useState("");
-    const [loginPassword, setLoginPassword] = useState("");
-    const [error, setError] = useState(null);
-    const [isSignUp, setIsSignUp] = useState(true);
-    
-    // eslint-disable-next-line
-    const [user, setUser] = useState({});
+	// eslint-disable-next-line
+	const [user, setUser] = useState({});
+	const navigate = useNavigate();
 
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
+	useEffect(() => {
+		onAuthStateChanged(auth, (currentUser) => {
+			setUser(currentUser);
+		});
+	}, []);
 
-    }, [])
+	const isValidPassword = (password) => {
+		return password.length >= 6;
+	};
 
-    const isValidEmail = (email) => {
-        return /\S+@\S+\.\S+/.test(email);
-    }
+	const register = async () => {
+		console.log(registerEmail, registerPassword);
+		// eslint-disable-next-line
+		const user = await createUserWithEmailAndPassword(
+			auth,
+			registerEmail,
+			registerPassword
+		);
+	};
 
-    const isValidPassword = (password) => {
-        return password.length >= 6;
-    }
+	const login = async () => {
+		// eslint-disable-next-line
+		const user = await signInWithEmailAndPassword(
+			auth,
+			loginEmail,
+			loginPassword
+		);
+	};
 
-    const register = async () => {
+	const handleChangeRegisterEmail = (e) => {
+		const emailInput = e.target.value;
+		setRegisterEmail(e.target.value);
+		setIsValidEmail(
+			EmailValidator.validate(emailInput) || emailInput.length === 0
+		);
+	};
 
-        if (!isValidEmail(registerEmail) || !isValidPassword(registerPassword)) {
-            setError("Please enter a valid email address and a password of minimum 6 characters.")
-        }
-        else {
-            setError(null)
-        }
-        console.log(registerEmail, registerPassword);
-        try {
-            const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-            console.log(user);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+	const handleChangeRegisterPassword = (e) => {
+		setRegisterPassword(e.target.value);
+	};
 
-    const login = async () => {
+	const handleSubmitRegister = (e) => {
+		e.preventDefault();
+		console.log(registerEmail, registerPassword);
+		if (!isValidEmail || registerEmail.length === 0) {
+			toast.error("Email is invalid.");
+			return;
+		}
+		if (!isValidPassword(registerPassword)) {
+			toast.error("Password must be at least 6 characters long.");
+			return;
+		}
+		const registerPromise = register();
+		toast.promise(registerPromise, {
+			loading: "Registering...",
+			success: () => {
+				"Registered successfully!";
+				navigate("/tasks");
+			},
+			error: (err) => {
+				switch (err.code) {
+					case "auth/email-already-in-use":
+						return "Email already registered.";
+					default:
+						return "Something went wrong.";
+				}
+			},
+		});
+	};
 
-        if (!isValidEmail(loginEmail) || !isValidPassword(loginPassword)) {
-            setError("Please enter a valid email address and a password of minimum 6 characters.")
-        }
-        else {
-            setError(null)
-        }
+	const handleChangeLoginEmail = (e) => {
+		const emailInput = e.target.value;
+		setLoginEmail(e.target.value);
+		setIsValidEmail(
+			EmailValidator.validate(emailInput) || emailInput.length === 0
+		);
+	};
 
-        try {
-            const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-            console.log(user);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+	const handleChangeLoginPassword = (e) => {
+		setLoginPassword(e.target.value);
+	};
 
-    // eslint-disable-next-line
-    const logout = async () => {
-        await signOut(auth);
-    }
+	const handleSubmitLogin = (e) => {
+		e.preventDefault();
+		if (!isValidEmail || loginEmail.length === 0) {
+			toast.error("Email is invalid.");
+			return;
+		}
+		if (loginPassword.length === 0) {
+			toast.error("Password cannot be empty.");
+			return;
+		}
+		const loginPromise = login();
+		toast.promise(loginPromise, {
+			loading: "Logging in...",
+			success: () => {
+				"Logged in successfully!";
+				navigate("/tasks");
+			},
+			error: (err) => {
+				switch (err.code) {
+					case "auth/user-not-found":
+						return "Email not registered.";
+					case "auth/wrong-password":
+						return "Invalid credentials.";
+					default:
+						return "Something went wrong.";
+				}
+			},
+		});
+	};
 
-    const handleChangeRegisterEmail = (e) => {
-        setRegisterEmail(e.target.value)
-    }
+	const changeForm = (e) => {
+		e.preventDefault();
+		setIsSignUp(!isSignUp);
+		setLoginEmail("");
+		setLoginPassword("");
+		setRegisterEmail("");
+		setRegisterPassword("");
+		setLoginPassword("");
+		setIsValidEmail(true);
+	};
 
-    const handleChangeRegisterPassword = (e) => {
-        setRegisterPassword(e.target.value)
-    }
+	return (
+		<div className="container auth-container">
+			<Toaster />
+			<h2 className="font-chivo font-semibold text-center mt-5">
+				You must be logged in to use the app.
+			</h2>
+			<div className="row gx-4">
+				<div className="col-md-6 col-sm-12 auth-card text-align-center mx-auto mt-5 px-4 pb-1">
+					<h5 className="text-center mt-4 font-chivo">
+						{isSignUp ? "Sign Up" : "Login"}
+					</h5>
+					<form>
+						<div className="details-box">
+							<TextInput
+								type={"email"}
+								onChange={
+									isSignUp ? handleChangeRegisterEmail : handleChangeLoginEmail
+								}
+								label="Enter email"
+								variant="outlined"
+								name="email"
+								needsValidation={true}
+								isValid={isValidEmail}
+								errorType="Invalid email!"
+								errorMessage="Please enter a valid email"
+								value={isSignUp ? registerEmail : loginEmail}
+							/>
+							<TextInput
+								type="password"
+								onChange={
+									isSignUp
+										? handleChangeRegisterPassword
+										: handleChangeLoginPassword
+								}
+								label={isSignUp ? "Set password" : "Enter password"}
+								variant="outlined"
+								name="password"
+								value={isSignUp ? registerPassword : loginPassword}
+							/>
+							<Button
+								variant="filled"
+								label={isSignUp ? "Register" : "Login"}
+								type="submit"
+								onClick={isSignUp ? handleSubmitRegister : handleSubmitLogin}
+								disabled={false}
+							/>
 
-    const handleSubmitRegister = (e) => {
-        e.preventDefault();
-        register();
-    }
+							<Button
+								variant="outlined"
+								className="mb-4"
+								type="submit"
+								onClick={changeForm}
+								label={isSignUp ? "Already Registered?" : "New user?"}
+								disabled={false}
+							></Button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
+};
 
-    const handleChangeLoginEmail = (e) => {
-        setLoginEmail(e.target.value)
-    }
-
-    const handleChangeLoginPassword = (e) => {
-        setLoginPassword(e.target.value)
-    }
-
-    const handleSubmitLogin = (e) => {
-        e.preventDefault();
-        login();
-    }
-
-    const changeForm = (e) => {
-        e.preventDefault()
-        setIsSignUp(!isSignUp);
-    }
-
-
-    return (
-        <div className='container auth-container'>
-            <h2 className='heading-text text-center mt-5'>You must be logged in to use the app.</h2>
-            <div className='row gx-4'>
-                <div className='col-md-6 col-sm-12 auth-card text-align-center mx-auto mt-5 px-4 pb-1'>
-                    <h5 className='text-center mt-3 logo-text'>{isSignUp ? "New User?" : "Already registered?"}</h5>
-                    <form >
-                        <Box className="details-box">
-                            <TextField type={"email"} className="mt-4 details-field" onChange={isSignUp ? handleChangeRegisterEmail : handleChangeLoginEmail} margin='normal' label="Enter email address" variant="outlined" name='email' />
-                            <TextField type="password" className="details-field" onChange={isSignUp ? handleChangeRegisterPassword : handleChangeLoginPassword} margin='normal' label={isSignUp ? "Set password (minimum 6 characters)" : "Enter password"} variant="outlined" name='password' />
-                            <Tooltip title={error == null ? "" : error}>
-                                <Button
-                                    sx={{ backgroundColor: "#FC2947", color: "white", "&:hover": { color: "white", backgroundColor: "#7149C6" } }}
-                                    variant="text"
-                                    className='mt-2 mb-1'
-                                    type="submit"
-                                    onClick={isSignUp ? handleSubmitRegister : handleSubmitLogin}>
-                                    {isSignUp ? "REGISTER" : "LOGIN"}
-                                </Button>
-                            </Tooltip>
-                            <Button
-                                sx={{ color: "black", "&:hover": { color: "white", backgroundColor: "#25316D" } }}
-                                variant="text"
-                                className='mt-1 mb-2'
-                                type="submit"
-                                onClick={changeForm}>
-                                {isSignUp ? "Already Registered?" : "New user?"}
-                            </Button>
-                        </Box>
-                    </form >
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default Auth
+export default Auth;

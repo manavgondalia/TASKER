@@ -8,8 +8,7 @@ const Footer = () => {
 				&copy; {new Date().getFullYear()}{" "}
 				<a
 					href="https://github.com/manavgondalia/"
-					className="animate-text"
-					style={{ color: "inherit", textDecoration: "none" }}
+					className="animate-text text-inherit hover:text-inherit no-underline"
 				>
 					{" "}
 					Manav P Gondalia{" "}
