@@ -8,13 +8,13 @@ import { getFirestore } from "@firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-	apiKey: "AIzaSyD2HZeXgpaUSzz4DCAAeoqNYm6Bm67k3Cs",
-	authDomain: "tasker-data.firebaseapp.com",
-	projectId: "tasker-data",
-	storageBucket: "tasker-data.appspot.com",
-	messagingSenderId: "209833969440",
-	appId: "1:209833969440:web:06328b89bd2222c9acb945",
-	measurementId: "G-3F3CXVFTLL",
+	apiKey: "AIzaSyD76wJ4DkmbhIQf_iovd8MRij3f5Ov-NMM",
+	authDomain: "tasker-zen.firebaseapp.com",
+	projectId: "tasker-zen",
+	storageBucket: "tasker-zen.appspot.com",
+	messagingSenderId: "166723614517",
+	appId: "1:166723614517:web:1ac1eacdf2a27da37f7e7c",
+	measurementId: "G-WGK37ZNJK2",
 };
 
 // Initialize Firebase

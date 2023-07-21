@@ -7,7 +7,6 @@ const PrivateRoute = ({ children }) => {
 	const [user, setUser] = useState({});
 	onAuthStateChanged(auth, (currentUser) => {
 		setUser(currentUser);
-		console.log(auth.currentUser);
 	});
 
 	return user ? children : <Navigate to="/auth" />;

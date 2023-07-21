@@ -6,7 +6,6 @@ import {
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import "./Auth.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import TextInput from "../elements/TextInput";
 import Button from "../elements/Button";
 import * as EmailValidator from "email-validator";
@@ -14,7 +13,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
-	// const [registerName, setRegisterName] = useState("");
 	const [registerEmail, setRegisterEmail] = useState("");
 	const [registerPassword, setRegisterPassword] = useState("");
 	const [loginEmail, setLoginEmail] = useState("");
@@ -54,10 +52,6 @@ const Auth = () => {
 			loginPassword
 		);
 	};
-
-	// const handleChangeRegisterName = (e) => {
-	// 	setRegisterName(e.target.value);
-	// };
 
 	const handleChangeRegisterEmail = (e) => {
 		const emailInput = e.target.value;
@@ -156,26 +150,16 @@ const Auth = () => {
 	return (
 		<div className="container">
 			<Toaster />
-			<h2 className="font-chivo font-semibold text-center mt-5">
+			<p className="font-chivo font-semibold text-center text-xl mt-10">
 				You must be logged in to use the app.
-			</h2>
-			<div className="row gx-4">
-				<div className="col-md-6 col-sm-12 auth-card text-align-center mx-auto mt-5 px-4 pb-1">
-					<h5 className="text-center mt-4 font-chivo">
+			</p>
+			<div>
+				<div className="auth-card text-align-center mx-auto mt-5 px-4 pb-1">
+					<p className="text-center mt-4 font-chivo text-lg font-semibold">
 						{isSignUp ? "Sign Up" : "Login"}
-					</h5>
+					</p>
 					<form>
 						<div className="flex flex-col justify-center content-center">
-							{/* {isSignUp && (
-								<TextInput
-									type="text"
-									onChange={handleChangeRegisterName}
-									label="Enter username"
-									variant="outlined"
-									name="name"
-									value={registerName}
-								/>
-							)} */}
 							<TextInput
 								type="email"
 								onChange={

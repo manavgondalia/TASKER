@@ -14,13 +14,11 @@ import {
 import React, { useEffect, useState } from "react";
 import AddTask from "./AddTask";
 import "./Task.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Completed from "./Completed";
 
 const Tasks = () => {
 	const [tasks, setTasks] = useState();
 	const itemcollectionRef = collection(db, "task-items");
-
 	const [user, setUser] = useState({});
 
 	useEffect(() => {
@@ -31,7 +29,6 @@ const Tasks = () => {
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser);
-			console.log(auth.currentUser);
 		});
 	}, []);
 
@@ -59,26 +56,24 @@ const Tasks = () => {
 
 	return (
 		<div>
-			{/* <Toaster /> */}
-
 			<div className="flex flex-col justify-center">
 				<div className="task-card text-align-center mx-auto mt-5 px-4 pb-1 h-[27rem]">
 					<div>
 						<AddTask user={user} parentCall={addTask} />
 					</div>
-					<div className="flex flex-col justify-between h-[20rem]">
+					<div className="flex flex-col justify-between h-[21rem]">
 						<ul className="ps-0 ">
 							{tasks &&
 								tasks.map((task) => (
 									<div
+										key={task.id}
 										className={
 											"flex justify-between align-items-center w-full py-1 px-2 mb-2 bg-[#F08A5D] rounded-xl font-chivo" +
 											(task.completed ? " completed-task" : "")
 										}
-										key={task.id}
 									>
 										<div
-											className="flex align-items-center justify-end"
+											className="flex items-center justify-end cursor-pointer"
 											onClick={() => completeTask(task.id, task.completed)}
 										>
 											{task.completed ? (

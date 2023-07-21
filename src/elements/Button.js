@@ -10,19 +10,15 @@ const Button = (props) => {
 		<>
 			<button
 				type={type}
-				className={
-					variant === "filled"
-						? clsx(
-								// if variant is filled, then use this class
-								"text-black bg-[#F9ED69] hover:bg-[#e4d960] focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2",
-								className
-						  )
-						: // else use this class
-						  clsx(
-								"hover:text-white hover:bg-[#FC2947] ring-1 ring-black focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2",
-								className
-						  )
-				}
+				className={clsx({
+					[className]: true,
+					// if variant is filled, then use this class
+					"text-black bg-[#F9ED69] hover:bg-[#e4d960] focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2":
+						variant === "filled",
+					// if variant is outlined, then use this class
+					"hover:text-white hover:bg-[#FC2947] ring-1 ring-black focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2":
+						variant === "outlined",
+				})}
 				onClick={onClick}
 				disabled={disabled}
 			>

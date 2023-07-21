@@ -16,7 +16,7 @@ const AddTask = (props) => {
 	const itemcollectionRef = collection(db, "task-items");
 
 	const handleChange = (e) => {
-		console.log(e.target.value);
+		// console.log(e.target.value);
 		setInput((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,
@@ -54,7 +54,7 @@ const AddTask = (props) => {
 						name="description"
 					/>
 					<Button
-						className="mb-2 p-2 ml-2 h-fit hover:bg-[#A2FF86] hover:text-black ring-0 hover:ring-1"
+						className="mb-2 p-2 ml-2 h-fit hover:bg-[#A2FF86] hover:text-black ring-0 hover:ring-1 ring-black focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2"
 						type="submit"
 						label={<MdTaskAlt className="mx-auto text-2xl" />}
 					/>
