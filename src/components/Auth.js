@@ -148,7 +148,7 @@ const Auth = () => {
 	};
 
 	return (
-		<div className="container">
+		<div className="container mx-auto">
 			<Toaster />
 			<p className="font-chivo font-semibold text-center text-xl mt-10">
 				You must be logged in to use the app.

@@ -75,7 +75,7 @@ const Tasks = () => {
 
 	return (
 		<div>
-			<div className="flex flex-col justify-center">
+			<div className="flex flex-col justify-center mx-auto">
 				<div className="task-card text-align-center mx-auto mt-5 px-4 pb-1 h-[27rem]">
 					<div>
 						<AddTask user={user} parentCall={addTask} />
