@@ -24,7 +24,7 @@ const Tasks = () => {
 	useEffect(() => {
 		getItems();
 		// eslint-disable-next-line
-	}, [tasks, user]);
+	}, [user]);
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => {
@@ -33,12 +33,13 @@ const Tasks = () => {
 	}, []);
 
 	const getItems = async () => {
+		console.log("getting data");
 		const q = query(itemcollectionRef, where("userid", "==", String(user.uid)));
 		const data = await getDocs(q);
 		setTasks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 	};
 
-	const addTask = (childData) => {
+	const addTask = (childData, childDataId) => {
 		const newlist = [...tasks, childData];
 		setTasks(newlist);
 	};
@@ -47,11 +48,29 @@ const Tasks = () => {
 		const taskToUpdate = doc(db, "task-items", id);
 		const newField = { completed: !completed };
 		await updateDoc(taskToUpdate, newField);
+		try {
+			setTasks(
+				// preventing fetching again from firestore
+				tasks.map((task) => {
+					if (task.id === id) {
+						return { ...task, completed: !task.completed };
+					}
+					return task;
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const deleteTask = async (id) => {
 		const taskToDelete = doc(db, "task-items", id);
 		await deleteDoc(taskToDelete);
+		try {
+			setTasks(tasks.filter((task) => task.id !== id));
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
