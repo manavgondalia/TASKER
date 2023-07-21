@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Header = () => {
 	const navigate = useNavigate();
-	const user = auth.currentUser;
+	const [user, setUser] = useState(auth.currentUser);
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (currentUser) => {
+			setUser(currentUser);
+		});
+	}, []);
 
 	const logout = async () => {
 		await signOut(auth);

@@ -29,7 +29,8 @@ const AddTask = (props) => {
 			completed: input.completed,
 			userid: props.user.uid,
 		};
-		await addDoc(itemcollectionRef, newTaskItem);
+		const docRef = await addDoc(itemcollectionRef, newTaskItem);
+		newTaskItem.id = docRef.id;
 		try {
 			props.parentCall(newTaskItem);
 		} catch (error) {
