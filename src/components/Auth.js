@@ -120,8 +120,10 @@ const Auth = () => {
 		toast.promise(loginPromise, {
 			loading: "Logging in...",
 			success: () => {
-				"Logged in successfully!";
-				navigate("/tasks");
+				setTimeout(() => {
+					navigate("/tasks");
+				}, 1000);
+				return "Logged in successfully!";
 			},
 			error: (err) => {
 				switch (err.code) {
