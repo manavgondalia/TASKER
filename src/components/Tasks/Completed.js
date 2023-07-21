@@ -1,30 +1,40 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FormLabel, Typography } from '@mui/material';
+import React from "react";
 
 const Completed = (props) => {
+	const tasklist = props.tasklist;
 
-    const tasklist = props.tasklist;
+	let totalTasks = 0,
+		completedTasks = 0;
 
-    var totaltasks = 0, completedtasks = 0;
-    if (tasklist) {
-        totaltasks = tasklist.length;
-        for (let i = 0; i < tasklist.length; i++) {
-            const task = tasklist[i];
-            completedtasks += (task.completed);
-        }
-    }
+	if (tasklist) {
+		totalTasks = tasklist.length;
+		for (let i = 0; i < tasklist.length; i++) {
+			const task = tasklist[i];
+			completedTasks += task.completed;
+		}
+	}
 
-    var done = false;
-    if (completedtasks === totaltasks) {
-        done = true;
-    }
+	let done = false;
+	if (completedTasks === totalTasks) {
+		done = true;
+	}
 
-    return (
-        <div className="p-1 text-center tracker">
-            <FormLabel >Completed: <span>{completedtasks} out of {totaltasks} <br></br>{done && <Typography >Done for the day, Wohoo! <span role="img" aria-label="party">🎉</span></Typography>}</span ></FormLabel>
-        </div>
-    )
-}
+	return (
+		<div className="font-chivo p-1 text-center rounded-lg bg-[#F6F6F6]">
+			<span>Completed: </span>
+			<span>
+				{completedTasks} out of {totalTasks}{" "}
+			</span>
+			{done && (
+				<div className="font-chivo">
+					Done for the day, Wohoo!{" "}
+					<span role="img" aria-label="party">
+						🎉
+					</span>
+				</div>
+			)}
+		</div>
+	);
+};
 
-export default Completed
+export default Completed;
