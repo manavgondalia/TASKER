@@ -5,42 +5,47 @@ import "./Task.css";
 import TextInput from "../../elements/TextInput";
 import Button from "../../elements/Button";
 import { MdTaskAlt } from "react-icons/md";
+import toast from "react-hot-toast";
+
+const MAX_DESCRIPTION_LENGTH = 300;
 
 const AddTask = (props) => {
-	const [input, setInput] = useState({
-		description: "",
-		completed: false,
-		userid: props.user.uid,
-	});
+	const [description, setDescription] = useState("");
 
 	const itemcollectionRef = collection(db, "task-items");
 
 	const handleChange = (e) => {
-		// console.log(e.target.value);
-		setInput((prevState) => ({
-			...prevState,
-			[e.target.name]: e.target.value,
-		}));
+		setDescription(e.target.value);
 	};
 
-	const sendRequest = async () => {
+	const sendRequest = async (trimmed) => {
 		const newTaskItem = {
-			description: input.description,
-			completed: input.completed,
+			description: trimmed,
+			completed: false,
 			userid: props.user.uid,
 		};
 		const docRef = await addDoc(itemcollectionRef, newTaskItem);
 		newTaskItem.id = docRef.id;
-		try {
-			props.parentCall(newTaskItem);
-		} catch (error) {
-			console.log(error);
-		}
+		props.parentCall(newTaskItem);
+		setDescription("");
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		sendRequest();
+		const trimmed = description.trim();
+		if (!trimmed) {
+			toast.error("Task description cannot be empty.");
+			return;
+		}
+		if (trimmed.length > MAX_DESCRIPTION_LENGTH) {
+			toast.error(`Task description must be ${MAX_DESCRIPTION_LENGTH} characters or fewer.`);
+			return;
+		}
+		toast.promise(sendRequest(trimmed), {
+			loading: "Adding task...",
+			success: "Task added!",
+			error: "Failed to add task.",
+		});
 	};
 
 	return (
@@ -53,6 +58,7 @@ const AddTask = (props) => {
 						onChange={handleChange}
 						placeholder="Add a task"
 						name="description"
+						value={description}
 					/>
 					<Button
 						className="mb-2 p-2 ml-2 h-fit hover:bg-[#A2FF86] hover:text-black ring-0 hover:ring-1 ring-black focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-full text-md py-2 text-center my-2"
