@@ -15,75 +15,82 @@ import React, { useEffect, useState } from "react";
 import AddTask from "./AddTask";
 import "./Task.css";
 import Completed from "./Completed";
+import toast, { Toaster } from "react-hot-toast";
 
 const Tasks = () => {
-	const [tasks, setTasks] = useState();
+	const [tasks, setTasks] = useState([]);
+	const [user, setUser] = useState(null);
+	const [loading, setLoading] = useState(true);
 	const itemcollectionRef = collection(db, "task-items");
-	const [user, setUser] = useState({});
 
 	useEffect(() => {
-		getItems();
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+			setUser(currentUser);
+		});
+		return unsubscribe;
+	}, []);
+
+	useEffect(() => {
+		if (user) {
+			getItems();
+		}
 		// eslint-disable-next-line
 	}, [user]);
 
-	useEffect(() => {
-		onAuthStateChanged(auth, (currentUser) => {
-			setUser(currentUser);
-		});
-	}, []);
-
 	const getItems = async () => {
-		console.log("getting data");
-		const q = query(itemcollectionRef, where("userid", "==", String(user.uid)));
-		const data = await getDocs(q);
-		setTasks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		try {
+			const q = query(itemcollectionRef, where("userid", "==", user.uid));
+			const data = await getDocs(q);
+			setTasks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		} catch (error) {
+			toast.error("Failed to load tasks.");
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const addTask = (childData, childDataId) => {
-		const newlist = [...tasks, childData];
-		setTasks(newlist);
+	const addTask = (childData) => {
+		setTasks((prev) => [...prev, childData]);
 	};
 
 	const completeTask = async (id, completed) => {
 		const taskToUpdate = doc(db, "task-items", id);
-		const newField = { completed: !completed };
-		await updateDoc(taskToUpdate, newField);
 		try {
+			await updateDoc(taskToUpdate, { completed: !completed });
 			setTasks(
-				// preventing fetching again from firestore
-				tasks.map((task) => {
-					if (task.id === id) {
-						return { ...task, completed: !task.completed };
-					}
-					return task;
-				})
+				tasks.map((task) =>
+					task.id === id ? { ...task, completed: !task.completed } : task
+				)
 			);
 		} catch (error) {
-			console.log(error);
+			toast.error("Failed to update task.");
 		}
 	};
 
 	const deleteTask = async (id) => {
 		const taskToDelete = doc(db, "task-items", id);
-		await deleteDoc(taskToDelete);
 		try {
+			await deleteDoc(taskToDelete);
 			setTasks(tasks.filter((task) => task.id !== id));
 		} catch (error) {
-			console.log(error);
+			toast.error("Failed to delete task.");
 		}
 	};
 
 	return (
 		<div>
+			<Toaster />
 			<div className="flex flex-col justify-center mx-auto">
 				<div className="task-card text-align-center mx-auto mt-5 px-4 pb-1 h-[27rem]">
 					<div>
-						<AddTask user={user} parentCall={addTask} />
+						{user && <AddTask user={user} parentCall={addTask} />}
 					</div>
 					<div className="flex flex-col justify-between h-[21rem]">
-						<ul className="ps-0 ">
-							{tasks &&
-								tasks.map((task) => (
+						{loading ? (
+							<p className="text-center font-chivo mt-4">Loading tasks...</p>
+						) : (
+							<ul className="ps-0 ">
+								{tasks.map((task) => (
 									<div
 										key={task.id}
 										className={
@@ -108,7 +115,8 @@ const Tasks = () => {
 										/>
 									</div>
 								))}
-						</ul>
+							</ul>
+						)}
 						<div>
 							<Completed tasklist={tasks} />
 						</div>

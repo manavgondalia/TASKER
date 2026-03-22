@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read, create, update, and delete their own task items.
+    match /task-items/{taskId} {
+      allow read, delete: if request.auth != null
+        && request.auth.uid == resource.data.userid;
+
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.userid
+        && request.resource.data.description is string
+        && request.resource.data.description.size() > 0
+        && request.resource.data.description.size() <= 300
+        && request.resource.data.completed is bool;
+
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.userid
+        && request.resource.data.userid == resource.data.userid;
+    }
+
+    // Deny all other access by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

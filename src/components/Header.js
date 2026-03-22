@@ -8,9 +8,10 @@ const Header = () => {
 	const [user, setUser] = useState(auth.currentUser);
 
 	useEffect(() => {
-		onAuthStateChanged(auth, (currentUser) => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser);
 		});
+		return unsubscribe;
 	}, []);
 
 	const logout = async () => {

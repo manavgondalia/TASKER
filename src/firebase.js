@@ -2,19 +2,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "@firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-	apiKey: "AIzaSyD76wJ4DkmbhIQf_iovd8MRij3f5Ov-NMM",
-	authDomain: "tasker-zen.firebaseapp.com",
-	projectId: "tasker-zen",
-	storageBucket: "tasker-zen.appspot.com",
-	messagingSenderId: "166723614517",
-	appId: "1:166723614517:web:1ac1eacdf2a27da37f7e7c",
-	measurementId: "G-WGK37ZNJK2",
+	apiKey: process.env.REACT_APP_API_KEY,
+	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+	projectId: process.env.REACT_APP_PROJECT_ID,
+	storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+	messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+	appId: process.env.REACT_APP_APP_ID,
+	measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

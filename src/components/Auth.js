@@ -1,10 +1,9 @@
 import { auth } from "../firebase";
 import {
 	createUserWithEmailAndPassword,
-	onAuthStateChanged,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Auth.css";
 import TextInput from "../elements/TextInput";
 import Button from "../elements/Button";
@@ -19,38 +18,18 @@ const Auth = () => {
 	const [loginPassword, setLoginPassword] = useState("");
 	const [isValidEmail, setIsValidEmail] = useState(true);
 	const [isSignUp, setIsSignUp] = useState(true);
-
-	// eslint-disable-next-line
-	const [user, setUser] = useState({});
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		onAuthStateChanged(auth, (currentUser) => {
-			setUser(currentUser);
-		});
-	}, []);
 
 	const isValidPassword = (password) => {
 		return password.length >= 6;
 	};
 
 	const register = async () => {
-		console.log(registerEmail, registerPassword);
-		// eslint-disable-next-line
-		const user = await createUserWithEmailAndPassword(
-			auth,
-			registerEmail,
-			registerPassword
-		);
+		await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
 	};
 
 	const login = async () => {
-		// eslint-disable-next-line
-		const user = await signInWithEmailAndPassword(
-			auth,
-			loginEmail,
-			loginPassword
-		);
+		await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
 	};
 
 	const handleChangeRegisterEmail = (e) => {
@@ -67,7 +46,6 @@ const Auth = () => {
 
 	const handleSubmitRegister = (e) => {
 		e.preventDefault();
-		console.log(registerEmail, registerPassword);
 		if (!isValidEmail || registerEmail.length === 0) {
 			toast.error("Email is invalid.");
 			return;
